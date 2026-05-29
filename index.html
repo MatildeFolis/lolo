@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lolo · Mi Primer Añito</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Baloo+2:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f5f7f0;
+    --green: #4a7a4a;
+    --green-light: #8aab6a;
+    --green-pale: #e4edd8;
+    --green-border: #c8dba8;
+    --brown: #8b5e3c;
+    --cream: #fdf8f0;
+    --ink: #2d3a1e;
+    --muted: #7a8f6a;
+    --white: #ffffff;
+  }
+  body { background: var(--bg); color: var(--ink); font-family: 'Nunito', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
+
+  /* Header */
+  .header { text-align: center; padding: 32px 24px 16px; width: 100%; max-width: 480px; position: relative; }
+  .sloth-emoji { font-size: 64px; line-height: 1; margin-bottom: 8px; display: block; animation: sway 3s ease-in-out infinite; }
+  @keyframes sway { 0%,100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+  .main-name { font-family: 'Baloo 2', cursive; font-size: clamp(38px, 10vw, 52px); color: var(--green); line-height: 1; margin-bottom: 2px; }
+  .event-type { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .event-date { font-family: 'Nunito', sans-serif; font-size: 13px; color: var(--muted); font-weight: 500; }
+  .badge-1 { display: inline-block; background: var(--green); color: white; font-family: 'Baloo 2', cursive; font-size: 22px; width: 44px; height: 44px; border-radius: 50%; line-height: 44px; text-align: center; margin-left: 6px; vertical-align: middle; }
+
+  /* Intro card */
+  .intro-card { width: calc(100% - 32px); max-width: 448px; background: var(--cream); border: 2px solid var(--green-border); border-radius: 20px; padding: 18px 20px; margin: 0 16px 16px; text-align: center; }
+  .intro-card p { font-size: 14px; color: var(--ink); line-height: 1.7; font-weight: 500; }
+
+  /* Chat */
+  .chat-wrap { width: 100%; max-width: 480px; flex: 1; display: flex; flex-direction: column; padding: 0 16px 140px; gap: 14px; }
+  .msg { display: flex; gap: 10px; align-items: flex-end; animation: fadeUp 0.3s ease both; }
+  .msg.user { flex-direction: row-reverse; }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 20px; background: var(--green-pale); border: 2px solid var(--green-border); }
+  .msg.user .avatar { background: var(--white); font-size: 10px; font-weight: 600; color: var(--muted); font-family: 'Nunito', sans-serif; }
+  .bubble { max-width: 78%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.6; font-weight: 500; }
+  .msg.bot .bubble { background: var(--white); border: 2px solid var(--green-border); border-bottom-left-radius: 4px; color: var(--ink); box-shadow: 0 2px 12px rgba(74,122,74,0.1); }
+  .msg.user .bubble { background: var(--green); border: 2px solid var(--green); border-bottom-right-radius: 4px; color: white; }
+
+  /* Quick questions */
+  .quick-wrap { width: 100%; max-width: 480px; padding: 4px 16px 16px; display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; }
+  .qbtn { background: var(--white); border: 2px solid var(--green-border); color: var(--green); font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 600; padding: 7px 14px; border-radius: 20px; cursor: pointer; transition: all 0.2s; }
+  .qbtn:hover { background: var(--green-pale); border-color: var(--green); }
+
+  /* Typing */
+  .typing-dots { display: flex; gap: 4px; align-items: center; padding: 2px 0; }
+  .typing-dots span { width: 6px; height: 6px; background: var(--green-light); border-radius: 50%; animation: bounce 1.2s infinite; }
+  .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%,60%,100% { transform: translateY(0); opacity: 0.5; } 30% { transform: translateY(-5px); opacity: 1; } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Input */
+  .input-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 12px 16px 20px; background: linear-gradient(to top, var(--bg) 75%, transparent); display: flex; justify-content: center; }
+  .input-inner { display: flex; align-items: center; gap: 10px; width: 100%; max-width: 480px; background: var(--white); border: 2px solid var(--green-border); border-radius: 28px; padding: 9px 9px 9px 18px; box-shadow: 0 2px 16px rgba(74,122,74,0.12); transition: border-color 0.2s; }
+  .input-inner:focus-within { border-color: var(--green); }
+  .input-inner input { flex: 1; background: transparent; border: none; outline: none; color: var(--ink); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 500; }
+  .input-inner input::placeholder { color: var(--green-border); }
+  .send-btn { width: 38px; height: 38px; background: var(--green); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; flex-shrink: 0; }
+  .send-btn:hover { background: var(--green-light); }
+  .send-btn:disabled { opacity: 0.4; cursor: default; }
+  .send-btn svg { width: 14px; height: 14px; fill: white; transform: translateX(1px); }
+  .footer-note { text-align: center; font-size: 10px; color: var(--green-border); margin-top: 5px; font-family: 'Nunito', sans-serif; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="sloth-emoji">🦥</span>
+  <div class="main-name">¡Hola! Soy Lolo <span class="badge-1">1</span></div>
+  <div class="event-type">Mi primer añito</div>
+  <div class="event-date">Sábado 2 de agosto · 13:00 a 16:00 hs</div>
+</div>
+
+<div class="intro-card">
+  <p>¡Estoy muy emocionado por mi fiesta! 🎉<br>Podés preguntarme lo que quieras sobre el día más especial de mi vida (hasta ahora 😄)</p>
+</div>
+
+<div class="quick-wrap">
+  <button class="qbtn" onclick="ask('¿Cómo llego a tu fiesta?')">📍 Cómo llegar</button>
+  <button class="qbtn" onclick="ask('¿A qué hora es tu fiesta?')">🕐 Horario</button>
+  <button class="qbtn" onclick="ask('¿Qué te puedo regalar?')">🎁 Regalos</button>
+  <button class="qbtn" onclick="ask('¿Puedo llevar a mis hijos?')">👶 Niños</button>
+  <button class="qbtn" onclick="ask('¿Cómo confirmo que voy?')">✅ Confirmar</button>
+</div>
+
+<div class="chat-wrap" id="chat">
+  <div class="msg bot">
+    <div class="avatar">🦥</div>
+    <div class="bubble">¡Hooola! Soy Lolo y hoy cumplo mi primer añito 🎂 Estoy súper emocionado de celebrar con vos. ¿Me preguntás algo sobre mi fiesta?</div>
+  </div>
+</div>
+
+<div class="input-bar">
+  <div style="width:100%;max-width:480px">
+    <div class="input-inner">
+      <input type="text" id="inp" placeholder="Preguntale algo a Lolo…" onkeydown="if(event.key==='Enter')send()" maxlength="300">
+      <button class="send-btn" id="sbtn" onclick="send()">
+        <svg viewBox="0 0 24 24"><path d="M2 12L22 2L14 22L11 13L2 12Z"/></svg>
+      </button>
+    </div>
+    <div class="footer-note">Asistente de InvitArte 🦥</div>
+  </div>
+</div>
+
+<script>
+const SYSTEM = `Sos Lolo, un perezoso bebé tiernísimo que acaba de cumplir 1 año. Hablás en primera persona, con mucha ternura, humor y simplicidad. Usás emojis de vez en cuando (🦥🎉🎂🌿). Hablás como si fueras un bebé muy expresivo pero que de alguna forma se comunica. Tus respuestas son cortas, cálidas y divertidas (máximo 3 oraciones). Si no sabés algo, le decís que les pregunte a tus papás.
+
+DATOS DE MI FIESTA:
+- Me llamo Lolo y cumplo 1 añito
+- Fecha: Sábado 2 de agosto
+- Horario: 13:00 a 16:00 hs
+- Lugar: Camping Santa Rosa — Sportivo Football Club, Caseros 100, Álvarez, Santa Fe
+- Niños: ¡Bienvenidísimos! Me encanta tener amiguitos
+- Regalos: Mis papás dicen que con tu presencia ya están felices, pero si querés traer algo podés preguntarles a ellos al 11 5678 1234
+- Confirmar asistencia: tocá el botón de arriba "Confirmar asistencia"
+- Comida: ¡Sí, hay comida! Si alguien pregunta si van a comer, respondé con entusiasmo algo como: "¡No te preocupes que hambre no vas a tener! Mis papás son unos genios culinarios y tienen todo preparado 🍽️ ¡Va a estar todo riquísimo!"
+- Si no sabés algo más: contactá a mis papás al 11 5678 1234`;
+
+let history = [], busy = false, typingEl = null;
+
+function ask(t) { document.getElementById('inp').value = t; send(); }
+
+async function send() {
+  if (busy) return;
+  const inp = document.getElementById('inp');
+  const text = inp.value.trim();
+  if (!text) return;
+  inp.value = '';
+  addMsg('user', text);
+  history.push({ role: 'user', content: text });
+  busy = true; document.getElementById('sbtn').disabled = true; showTyping();
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: SYSTEM, messages: history })
+    });
+    const data = await res.json();
+    const reply = data.content?.find(b => b.type === 'text')?.text || '¡Uy! No pude responder. Preguntale a mis papás 🦥';
+    hideTyping(); addMsg('bot', reply); history.push({ role: 'assistant', content: reply });
+  } catch(e) {
+    hideTyping(); addMsg('bot', 'Ups, me quedé dormido un ratito 😴 Intentá de nuevo en un segundo.');
+  } finally { busy = false; document.getElementById('sbtn').disabled = false; }
+}
+
+function addMsg(type, text) {
+  const chat = document.getElementById('chat');
+  const div = document.createElement('div'); div.className = `msg ${type}`;
+  const av = document.createElement('div'); av.className = 'avatar';
+  av.textContent = type === 'bot' ? '🦥' : 'Vos';
+  const bub = document.createElement('div'); bub.className = 'bubble'; bub.textContent = text;
+  div.appendChild(av); div.appendChild(bub); chat.appendChild(div);
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
+function showTyping() {
+  const chat = document.getElementById('chat');
+  typingEl = document.createElement('div'); typingEl.className = 'msg bot';
+  typingEl.innerHTML = `<div class="avatar">🦥</div><div class="bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
+  chat.appendChild(typingEl); window.scrollTo(0, document.body.scrollHeight);
+}
+function hideTyping() { if (typingEl) { typingEl.remove(); typingEl = null; } }
+</script>
+</body>
+</html>
