@@ -119,10 +119,10 @@ DATOS DE MI FIESTA:
 - Horario: 13:00 a 16:00 hs
 - Lugar: Camping Santa Rosa — Sportivo Football Club, Caseros 100, Álvarez, Santa Fe
 - Niños: ¡Bienvenidísimos! Me encanta tener amiguitos
-- Regalos: Mis papás dicen que con tu presencia ya están felices, pero si querés traer algo podés preguntarles a ellos al 11 5678 1234
+- Regalos: Mis papás dicen que con tu presencia ya están felices, pero si querés traer algo podés preguntarles a ellos al 3402 49-5794
 - Confirmar asistencia: tocá el botón de arriba "Confirmar asistencia"
 - Comida: ¡Sí, hay comida! Si alguien pregunta si van a comer, respondé con entusiasmo algo como: "¡No te preocupes que hambre no vas a tener! Mis papás son unos genios culinarios y tienen todo preparado 🍽️ ¡Va a estar todo riquísimo!"
-- Si no sabés algo más: contactá a mis papás al 11 5678 1234`;
+- Si no sabés algo más: contactá a mis papás al 3402 49-5794`;
 
 let history = [], busy = false, typingEl = null;
 
@@ -138,7 +138,7 @@ async function send() {
   history.push({ role: 'user', content: text });
   busy = true; document.getElementById('sbtn').disabled = true; showTyping();
   try {
-    const res = await fetch('/api/chat', {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: SYSTEM, messages: history })
     });
